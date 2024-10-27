@@ -11,22 +11,19 @@
 class BitcoinExchange
 {
 	private:
-		std::string fileName;
-		std::map<std::string, float> dataBase;
-
+		std::map<std::string, double> btcPrices;
+		std::string databaseFile;
 	public:
 		BitcoinExchange();
-		BitcoinExchange(std::string str);
+		BitcoinExchange(const std::string& databaseFile);
 		~BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &src);
 		BitcoinExchange &operator=(const BitcoinExchange &src);
 
-		std::ifstream checkFile(std::string str);
-		std::map<std::string, float> createDB(std::ifstream file);
-
-
-
+		bool loadDatabase();
+		double getClosestPrice(const std::string& date) const;
+		bool isValidDate(const std::string& date) const;
+		bool isValidValue(const std::string& valueStr, double& value) const;
 };
-
 
 #endif

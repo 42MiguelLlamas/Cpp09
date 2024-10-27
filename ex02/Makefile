@@ -1,5 +1,5 @@
-NAME = btc
-SRCS = main.cpp BitcoinExchange.cpp
+NAME = Pmerge
+SRCS = main.cpp PmergeMe.cpp
 OBJS = $(SRCS:.cpp=.o)
 CFLAGS = -Wall -Werror -Wextra -std=c++98
 CC = c++
