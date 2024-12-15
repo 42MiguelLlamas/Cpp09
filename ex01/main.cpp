@@ -18,6 +18,6 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		std::cout << "Error: could not open file." << std::endl;
+		std::cout << "Error: bad number of arguments" << std::endl;
 	}
 }
