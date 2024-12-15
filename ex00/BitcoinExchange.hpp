@@ -6,24 +6,29 @@
 #include <sstream>
 #include <map>
 #include <string>
-
-
+#include <exception>
+#include <cstdlib>
 class BitcoinExchange
 {
 	private:
-		std::string fileName;
 		std::map<std::string, float> dataBase;
+		std::map<std::string, float> input;
 
 	public:
 		BitcoinExchange();
-		BitcoinExchange(std::string str);
 		~BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &src);
 		BitcoinExchange &operator=(const BitcoinExchange &src);
 
-		std::ifstream checkFile(std::string str);
-		std::map<std::string, float> createDB(std::ifstream file);
-
+		void createDB(const std::string &str);
+		void createInput(const std::string &str);
+		void processInput(std::string str);
+		void calculateExchange();
+		class BitcoinException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
 
 
 };

@@ -1,4 +1,4 @@
-#include "BitcoinExchange.hpp"
+#include "RPN.hpp"
 
 int main(int argc, char **argv)
 {
@@ -6,8 +6,9 @@ int main(int argc, char **argv)
 	{
 		try
 		{
-			BitcoinExchange MyData;
-			MyData.processInput(argv[1]);
+			RPN MyExpression(argv[1]);
+			int result = MyExpression.solve();
+			std::cout << result << std::endl;
 		}
 		catch(const std::exception& e)
 		{
