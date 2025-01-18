@@ -7,7 +7,6 @@ int main(int argc, char **argv)
 		try
 		{
 			PmergeMe MyExpression(argv, argc);
-			MyExpression.solve();
 		}
 		catch(const std::exception& e)
 		{

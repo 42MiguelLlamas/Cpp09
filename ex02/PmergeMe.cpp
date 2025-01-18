@@ -19,11 +19,22 @@ PmergeMe::PmergeMe(char **src, int argc)
 	display(lista);
 
 	clock_t start1 = clock();
-    mergeInsertSortDeque(queque);
+    sortQueue(queue);
     clock_t end1 = clock();
     double time1 = static_cast<double>(end1 - start1) / CLOCKS_PER_SEC * 1000;
+	std::cout << "Time to process a range of " << queue.size() << " elements with std::deque container: " << time1 << " us" << std::endl;
+
+
+	clock_t start1 = clock();
+    sortList(list);
+    clock_t end1 = clock();
+    double time1 = static_cast<double>(end1 - start1) / CLOCKS_PER_SEC * 1000;
+	std::cout << "Time to process a range of " << list.size() << " elements with std::deque container: " << time1 << " us" << std::endl;
+
 
 }
+
+
 
 PmergeMe::PmergeMe(const PmergeMe &src)
 {
