@@ -24,6 +24,10 @@ class PmergeMe
 		int stringToInt(const std::string& str);
 		template <typename T>
 		void display(const T& container);
+
+		void sortDeque(std::deque<int>& arr);
+		void sortList(std::list<int>& arr);
+
 		class PmergeMeException : public std::exception
 		{
 			public:

@@ -19,10 +19,8 @@ int powerOfTwo(int x)
 
 void merge(std::deque<int>& dq, unsigned long *order)
 {
-	std::cout << "Order is: "<< *order << std::endl;
     if (*order <= (dq.size() / 2))
 	{
-		std::cout << "Merge."<< std::endl;
         for (unsigned long i = 0; i < (dq.size() / *order); i++)
 		{
 			unsigned long index1 = *order - 1 + (*order * 2 * i);
@@ -32,7 +30,6 @@ void merge(std::deque<int>& dq, unsigned long *order)
 				index1 = *order - 1;
             	index2 = *order * 2 - 1;
 			}
-			std::cout << "Index 1: " << index1 << " | " << "Index 2: " << index2 << std::endl;
             if (index1 >= 0 && index2 < dq.size())
 			{
 				unsigned long pack_size = *order;
@@ -52,37 +49,74 @@ void merge(std::deque<int>& dq, unsigned long *order)
 			else
 				break;
         }
-		for (std::deque<int>::iterator it = dq.begin(); it != dq.end(); ++it)
-		{
-			std::cout << *it << " ";
-		}
-		std::cout << std::endl;
 		*order = *order * 2;
         merge(dq, order);
     }
 }
 
-void insert(std::deque<int>& dq, unsigned long *order)
+void insert(std::deque<int>& dq, unsigned long *order, unsigned long original)
 {
-	//AQUI METER LOGICA QUE INSERTE EL BLOQUE EN LA POSICION QUE LE CORRESPONDA
-
-    unsigned long start_pos = dq.size() - *order; // Última posición del bloque desordenado.
-    unsigned long i = dq.size() - *order - 1; // Recorrer desde el principio del bloque desordenado.
-
-    // Buscar la posición correcta para insertar el bloque.
-    while (i >= 0 && dq[i] > dq[start_pos]) {
-        --i;
-    }
-
-    // Mover los elementos a la derecha para hacer espacio
-    for (unsigned long j = dq.size() - 1; j > i; --j) {
-        dq[j] = dq[j - 1];
-    }
-
-    // Insertar el bloque en la posición encontrada
-    for (unsigned long k = 0; k < *order; ++k) {
-        dq[i + 1 + k] = dq[start_pos + k];
-    }
+	std::cout << "Order is: "<< *order << std::endl;
+	if (*order > 1)
+	{
+		unsigned long start = original - *order - 1;
+		std::cout << "start: "<< start << std::endl;
+		if (start > dq.size() - 1)
+		{
+			*order = *order / 2;
+			insert(dq, order, original);
+			return;
+		}
+		// Buscar la posición correcta para insertar el bloque.
+		unsigned long correct = start;
+		for (unsigned long i = 0; i < dq.size(); i++)
+		{
+			if (dq[start] < dq[i])
+			{
+				correct = i;
+				break;
+			}
+		}
+		std::cout << "Correct: "<< correct << std::endl;
+		if (correct >= start)
+		{
+			*order = *order / 2;
+			insert(dq, order, original);
+			return;
+		}
+		std::deque <int> auxDq;
+		for (unsigned long j = 0; j < dq.size(); j++)
+		{
+			if (j < correct || (j > (start - *order) && j <= start))
+				continue;
+			auxDq.push_back(dq[j]);
+		}
+		for (std::deque<int>::iterator it = auxDq.begin(); it != auxDq.end(); ++it)
+		{
+			std::cout << *it << " ";
+		}
+		std::cout << std::endl;
+		for (unsigned long j = start; j > start - *order; j--)
+		{
+			auxDq.push_front(dq[j]);
+		}
+		for (std::deque<int>::iterator it = auxDq.begin(); it != auxDq.end(); ++it)
+		{
+			std::cout << *it << " ";
+		}
+		std::cout << std::endl;
+		for (unsigned long j = correct; j > 0; j--)
+		{
+			auxDq.push_front(dq[j]);
+		}
+		for (std::deque<int>::iterator it = auxDq.begin(); it != auxDq.end(); ++it)
+		{
+			std::cout << *it << " ";
+		}
+		std::cout << std::endl;
+		*order = *order / 2;
+		insert(auxDq, order, original - *order);
+	}
 }
 
 void sort(std::deque<int> dq)
@@ -90,20 +124,24 @@ void sort(std::deque<int> dq)
 	unsigned long order = 1;
 	merge(dq, &order);
 	order = order / 2;
-	//insert(dq, &order);
+	insert(dq, &order, order * 4);
 }
 
 int main(void)
 {
-	std::deque<int> queue;
-	for (int i = 25; i >= 0; --i)
+	std::deque<int> dq;
+	/*for (int i = 25; i >= 1; --i)
 	{
 		queue.push_back(i);
-	}
-	for (std::deque<int>::iterator it = queue.begin(); it != queue.end(); ++it)
+	}*/
+	for (std::deque<int>::iterator it = dq.begin(); it != dq.end(); ++it)
 	{
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
-	sort(queue);
+	sort(dq);
+	for (std::deque<int>::iterator it = dq.begin(); it != dq.end(); ++it)
+	{
+		std::cout << *it << " ";
+	}
 }
